@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MeoDen Key</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0b0b1a;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+    .container {
+      background: #1a1a3e;
+      padding: 50px 40px;
+      border-radius: 32px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.8);
+      text-align: center;
+      border: 1px solid #3a3a7a;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: #ff6b9d;
+      margin-bottom: 10px;
+    }
+    .key-display {
+      background: #0f0f2a;
+      padding: 24px;
+      border-radius: 16px;
+      font-size: 2.8rem;
+      font-weight: bold;
+      letter-spacing: 6px;
+      color: #ffd700;
+      word-break: break-all;
+      border: 1px dashed #ff6b9d;
+      margin: 20px 0;
+    }
+    .btn {
+      background: #ff6b9d;
+      color: #fff;
+      border: none;
+      padding: 14px 34px;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s;
+      box-shadow: 0 0 15px rgba(255,107,157,0.3);
+    }
+    .btn:hover {
+      background: #ff3b7a;
+      transform: scale(1.04);
+      box-shadow: 0 0 30px rgba(255,107,157,0.6);
+    }
+    .toast {
+      visibility: hidden;
+      background: #2a2a5a;
+      color: #0f0;
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      margin-top: 12px;
+      display: inline-block;
+      transition: 0.3s;
+    }
+    .toast.show { visibility: visible; }
+    .back {
+      margin-top: 25px;
+      display: inline-block;
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back:hover { color: #ff6b9d; }
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <!-- JavaScript render -->
+  </div>
+
+  <script>
+    const app = document.getElementById('app');
+
+    function showKey(key) {
+      app.innerHTML = `
+        <h1>🔑 MeoDen Key</h1>
+        <div class="key-display">${key}</div>
+        <button class="btn" onclick="copyKey('${key}')">📋 Sao chép</button>
+        <div id="toast" class="toast">✅ Đã sao chép!</div>
+        <a class="back" href="/">← Về trang chủ</a>
+      `;
+    }
+
+    window.copyKey = function(key) {
+      navigator.clipboard.writeText(key).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      }).catch(() => {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = key;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      });
+    };
+
+    // Xử lý URL
+    const path = window.location.pathname;
+    if (path.startsWith('/key/')) {
+      const key = path.substring(5);
+      if (key) {
+        showKey(key);
+      } else {
+        window.location.href = '/';
+      }
+    } else {
+      window.location.href = '/';
+    }
+  </script>
+</body>
+</html>
