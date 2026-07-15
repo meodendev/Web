@@ -5,157 +5,186 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MeoDen Dashboard</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #0b0b1a;
-      color: #fff;
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: #faf6f0;
+      color: #2c2c2c;
       min-height: 100vh;
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
       padding: 20px;
     }
+
+    /* Container chính */
     .container {
-      background: #1a1a3e;
+      background: #ffffff;
       padding: 50px 40px;
-      border-radius: 32px;
-      max-width: 700px;
+      border-radius: 48px;
+      max-width: 600px;
       width: 100%;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.04);
       text-align: center;
-      border: 1px solid #3a3a7a;
+      position: relative;
     }
-    h1 {
-      font-size: 3rem;
-      color: #ff6b9d;
-      margin-bottom: 8px;
-      text-shadow: 0 0 30px rgba(255, 107, 157, 0.3);
+
+    /* Nút hamburger */
+    .hamburger {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 10;
+      padding: 6px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .hamburger:hover {
+      background: #f0ebe6;
+    }
+    .hamburger span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: #3a3a3a;
+      border-radius: 4px;
+      transition: 0.25s ease;
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 6px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -6px);
+    }
+
+    /* Menu thả xuống */
+    .menu {
+      position: absolute;
+      top: 70px;
+      right: 28px;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+      padding: 16px 0;
+      min-width: 180px;
+      display: none;
+      flex-direction: column;
+      border: 1px solid #eeeae6;
+    }
+    .menu.open {
+      display: flex;
+    }
+    .menu a {
+      padding: 12px 24px;
+      color: #2c2c2c;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: 0.15s;
+      text-align: left;
+      border-left: 3px solid transparent;
+    }
+    .menu a:hover {
+      background: #f8f4f0;
+      border-left-color: #e8808a;
+    }
+    .menu .separator {
+      height: 1px;
+      background: #eeeae6;
+      margin: 4px 16px;
+    }
+
+    /* Nội dung chính */
+    .greeting {
+      margin-top: 20px;
+      font-size: 2.4rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+    .greeting span {
+      font-weight: 600;
+      color: #e8808a;
     }
     .sub {
-      font-size: 1.1rem;
-      color: #bbb;
-      margin-bottom: 25px;
-    }
-    .social {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin: 20px 0 30px;
-      flex-wrap: wrap;
-    }
-    .social a {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #2a2a5a;
-      padding: 12px 28px;
-      border-radius: 40px;
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
-      transition: 0.25s;
-      border: 1px solid #3a3a7a;
-    }
-    .social a:hover {
-      background: #ff6b9d;
-      border-color: #ff6b9d;
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(255, 107, 157, 0.4);
-    }
-    .input-group {
-      display: flex;
-      gap: 12px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .input-group input {
-      flex: 1;
-      min-width: 200px;
-      padding: 14px 20px;
-      border-radius: 40px;
-      border: none;
-      background: #2a2a5a;
-      color: #fff;
-      font-size: 1rem;
-    }
-    .input-group input::placeholder {
-      color: #888;
-    }
-    .btn {
-      background: #ff6b9d;
-      color: #fff;
-      border: none;
-      padding: 14px 34px;
-      border-radius: 40px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.25s;
-      box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
-    }
-    .btn:hover {
-      background: #ff3b7a;
-      transform: scale(1.04);
-      box-shadow: 0 0 30px rgba(255, 107, 157, 0.6);
-    }
-    .hint {
-      margin-top: 20px;
+      color: #b0aba6;
       font-size: 0.9rem;
-      color: #888;
+      margin-top: 6px;
+      letter-spacing: 4px;
     }
-    .hint code {
-      background: #2a2a5a;
-      padding: 4px 12px;
-      border-radius: 8px;
-      color: #ffd700;
-    }
+
     .footer {
       margin-top: 30px;
-      font-size: 0.8rem;
-      color: #444;
+      font-size: 0.75rem;
+      color: #ccc8c4;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 40px 20px; }
+      .greeting { font-size: 1.8rem; }
+      .menu { right: 10px; min-width: 150px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🐾 MeoDen</h1>
-    <p class="sub">Hệ thống Key &amp; Dịch vụ</p>
 
-    <div class="social">
-      <a href="https://dsc.gg/meoden" target="_blank">💬 Discord</a>
-      <a href="https://www.tiktok.com/@meoden210.69" target="_blank">📱 TikTok</a>
-    </div>
-
-    <div class="input-group">
-      <input type="text" id="keyInput" placeholder="Nhập key bất kỳ..." />
-      <button class="btn" onclick="goKey()">🔑 Mở</button>
-    </div>
-    <p class="hint">
-      Hoặc truy cập trực tiếp: <code>/key/&lt;key&gt;</code>
-    </p>
-    <div class="footer">Made with ❤️ by MeoDen</div>
+<div class="container">
+  <!-- Hamburger -->
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
   </div>
 
-  <script>
-    function goKey() {
-      const key = document.getElementById('keyInput').value.trim();
-      if (key) {
-        window.location.href = `/key/${key}`;
-      }
-    }
+  <!-- Menu -->
+  <div class="menu" id="menu">
+    <a href="https://dsc.gg/meoden" target="_blank">💬 Discord</a>
+    <a href="https://www.tiktok.com/@meoden210.69" target="_blank">📱 TikTok</a>
+    <div class="separator"></div>
+    <a href="#" id="keyLink">🔑 Key</a>
+  </div>
 
-    // Nếu người dùng nhấn Enter
-    document.getElementById('keyInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') goKey();
-    });
-  </script>
+  <!-- Lời chào -->
+  <div class="greeting">
+    Xin chào, <span>MeoDen</span>
+  </div>
+  <div class="sub">— Dashboard —</div>
+
+  <div class="footer">© MeoDen</div>
+</div>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById('menu');
+    const hamburger = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    hamburger.classList.toggle('active');
+  }
+
+  // Đóng menu khi click ra ngoài
+  document.addEventListener('click', function(e) {
+    const container = document.querySelector('.container');
+    if (!container.contains(e.target)) {
+      document.getElementById('menu').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('active');
+    }
+  });
+
+  // Xử lý link Key: mở prompt để nhập key
+  document.getElementById('keyLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    const key = prompt('Nhập key của bạn:');
+    if (key && key.trim()) {
+      window.location.href = `/key/${key.trim()}`;
+    }
+  });
+</script>
+
 </body>
 </html>
